@@ -1,6 +1,4 @@
-﻿-- Crear la base de datos (opcional)
--- CREATE DATABASE MiBaseDeDatos;
--- USE MiBaseDeDatos;
+
 
 -- Crear la tabla EmpleadoSectores
 CREATE TABLE EmpleadoSectores (
