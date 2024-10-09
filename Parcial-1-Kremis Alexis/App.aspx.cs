@@ -10,25 +10,28 @@ namespace Parcial_1_Kremis_Alexis
         {
             if (!IsPostBack)
             {
-                Console.WriteLine("Execute consult SQL SUCCESS ");
                 SqlDataSource1.SelectCommand = "SELECT * FROM [Empleados]";
             }
         }
 
         protected void Button1_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(TextBox1.Text))
+            string nombreSector = TextBox1.Text;
+
+            if (!string.IsNullOrEmpty(nombreSector))
             {
-                int idSector = ObtenerIdSector(TextBox1.Text);
+                int idSector = ObtenerIdSector(nombreSector);
 
                 if (idSector > 0)
                 {
+                    Response.Write("<script>alert('ID Sector: " + idSector + "');</script>");
                     SqlDataSource1.SelectCommand = "SELECT * FROM [Empleados] WHERE [id_sector] = @id_sector";
                     SqlDataSource1.SelectParameters.Clear();
                     SqlDataSource1.SelectParameters.Add("id_sector", idSector.ToString());
                 }
                 else
                 {
+                    Response.Write("<script>alert('Sector no encontrado');</script>");
                     SqlDataSource1.SelectCommand = "SELECT * FROM [Empleados]";
                 }
             }
@@ -38,13 +41,11 @@ namespace Parcial_1_Kremis_Alexis
             }
 
             GridView1.DataBind();
-            Console.WriteLine("Execute consult SQL SUCCESS ");
         }
 
         private int ObtenerIdSector(string nombreSector)
         {
-            Console.WriteLine("Execute ObtenerIdSector" + ": " + nombreSector);
-            int idSector = -1; 
+            int idSector = -1;
             string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["IssdTP42023ConnectionString"].ConnectionString;
 
             using (SqlConnection conn = new SqlConnection(connectionString))
@@ -60,13 +61,12 @@ namespace Parcial_1_Kremis_Alexis
 
                     if (result != null)
                     {
-                        Console.WriteLine("Execute SQL SUCCESS " + ": " + result);
                         idSector = Convert.ToInt32(result);
                     }
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
+                    Response.Write("<script>alert('Error: " + ex.Message + "');</script>");
                 }
             }
 
