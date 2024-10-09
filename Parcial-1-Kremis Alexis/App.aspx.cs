@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Data.SqlClient;
-using System.IO; // Asegúrate de incluir esto para manejar archivos
+using System.IO; 
 using System.Web.UI;
 
 namespace Parcial_1_Kremis_Alexis
