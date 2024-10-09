@@ -68,6 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.aspx" />
+    <Content Include="SQL\seed.sql" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>

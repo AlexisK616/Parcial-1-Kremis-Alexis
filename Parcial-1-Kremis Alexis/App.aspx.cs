@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.SqlClient;
+using System.IO; // Asegúrate de incluir esto para manejar archivos
 using System.Web.UI;
 
 namespace Parcial_1_Kremis_Alexis
@@ -24,19 +25,20 @@ namespace Parcial_1_Kremis_Alexis
 
                 if (idSector > 0)
                 {
-                    Response.Write("<script>alert('ID Sector: " + idSector + "');</script>");
+                    Log($"ID Sector encontrado: {idSector}");
                     SqlDataSource1.SelectCommand = "SELECT * FROM [Empleados] WHERE [id_sector] = @id_sector";
                     SqlDataSource1.SelectParameters.Clear();
                     SqlDataSource1.SelectParameters.Add("id_sector", idSector.ToString());
                 }
                 else
                 {
-                    Response.Write("<script>alert('Sector no encontrado');</script>");
+                    Log($"Sector no encontrado: {nombreSector}");
                     SqlDataSource1.SelectCommand = "SELECT * FROM [Empleados]";
                 }
             }
             else
             {
+                Log("Se solicitó una búsqueda sin nombre de sector.");
                 SqlDataSource1.SelectCommand = "SELECT * FROM [Empleados]";
             }
 
@@ -62,15 +64,25 @@ namespace Parcial_1_Kremis_Alexis
                     if (result != null)
                     {
                         idSector = Convert.ToInt32(result);
+                        Log($"ID Sector obtenido: {idSector} para el nombre de sector: {nombreSector}");
                     }
                 }
                 catch (Exception ex)
                 {
-                    Response.Write("<script>alert('Error: " + ex.Message + "');</script>");
+                    Log($"Error al obtener el ID del sector: {ex.Message}");
                 }
             }
 
             return idSector;
+        }
+
+        private void Log(string message)
+        {
+            string logFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs.txt"); 
+            using (StreamWriter writer = new StreamWriter(logFilePath, true)) 
+            {
+                writer.WriteLine($"{DateTime.Now}: {message}");
+            }
         }
     }
 }
