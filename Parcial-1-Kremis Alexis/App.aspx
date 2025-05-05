@@ -1,47 +1,58 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="App.aspx.cs" Inherits="Parcial_1_Kremis_Alexis.App" %>
 
 <!DOCTYPE html>
-
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title></title>
+    <title>Listado de Vuelos</title>
+    <style>
+        body {
+            font-family: Arial;
+            margin: 20px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        .filtro {
+            margin-bottom: 10px;
+        }
+
+        .grilla {
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
     <form id="form1" runat="server">
-        <div>
-            <!-- Campo para ingresar el nombre del sector -->
-            <asp:TextBox ID="TextBox1" runat="server" placeholder="Ingrese el nombre del sector"></asp:TextBox>
-            <asp:Button ID="Button1" runat="server" Text="Filtrar" OnClick="Button1_Click" />
-            
-            <!-- GridView para mostrar la lista de empleados -->
-            <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" DataKeyNames="id" DataSourceID="SqlDataSource1">
+        <h2>Listado de Vuelos</h2>
+        <div class="filtro">
+            <asp:TextBox ID="TextBox1" runat="server" Width="300px" Placeholder="Buscar por Aerolínea o Modelo de Avión" />
+            <asp:Button ID="Button1" runat="server" Text="Buscar" OnClick="Button1_Click" />
+        </div>
+
+        <div class="grilla">
+            <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" DataSourceID="SqlDataSource1">
                 <Columns>
-                    <asp:CommandField ShowDeleteButton="True" />
-                    <asp:BoundField DataField="id" HeaderText="id" InsertVisible="False" ReadOnly="True" SortExpression="id" />
-                    <asp:BoundField DataField="apellido" HeaderText="apellido" SortExpression="apellido" />
-                    <asp:BoundField DataField="nombre" HeaderText="nombre" SortExpression="nombre" />
+                    <asp:BoundField DataField="id" HeaderText="ID" />
+                    <asp:BoundField DataField="numeroVuelo" HeaderText="Número de Vuelo" />
+                    <asp:BoundField DataField="Aerolinea" HeaderText="Aerolínea" />
+                    <asp:BoundField DataField="ModeloAvion" HeaderText="Modelo de Avión" />
                 </Columns>
             </asp:GridView>
-            
-            <!-- SqlDataSource que obtiene la lista de empleados -->
-            <asp:SqlDataSource ID="SqlDataSource1" runat="server" 
-                ConnectionString="<%$ ConnectionStrings:IssdTP42023ConnectionString %>" 
-                SelectCommand="SELECT [id], [apellido], [nombre] FROM [Empleados]" DeleteCommand="DELETE FROM [Empleados] WHERE [id] = @id" InsertCommand="INSERT INTO [Empleados] ([apellido], [nombre]) VALUES (@apellido, @nombre)" UpdateCommand="UPDATE [Empleados] SET [apellido] = @apellido, [nombre] = @nombre WHERE [id] = @id">
-                <DeleteParameters>
-                    <asp:Parameter Name="id" Type="Int32" />
-                </DeleteParameters>
-                <InsertParameters>
-                    <asp:Parameter Name="apellido" Type="String" />
-                    <asp:Parameter Name="nombre" Type="String" />
-                </InsertParameters>
-                <UpdateParameters>
-                    <asp:Parameter Name="apellido" Type="String" />
-                    <asp:Parameter Name="nombre" Type="String" />
-                    <asp:Parameter Name="id" Type="Int32" />
-                </UpdateParameters>
-            </asp:SqlDataSource>
         </div>
+
+        <asp:SqlDataSource ID="SqlDataSource1" runat="server"
+            ConnectionString="<%$ ConnectionStrings:IssdTP42023ConnectionString %>"
+            SelectCommand="">
+        </asp:SqlDataSource>
+
+        
+
+   <h2> Redireccion </h2>
+ <asp:Button ID="btnIrAerolineas" runat="server" Text="ABM Aerolíneas" OnClick="btnIrAerolineas_Click" />
+<asp:Button ID="btnIrModelos" runat="server" Text="ABM Modelos de Avión" OnClick="btnIrModelos_Click" />
+<asp:Button ID="btnIrVuelos" runat="server" Text="ABM Vuelos" OnClick="btnIrVuelos_Click" />
     </form>
 </body>
 </html>

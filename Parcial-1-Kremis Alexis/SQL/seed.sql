@@ -1,49 +1,55 @@
-﻿-- Crear la base de datos (opcional)
--- CREATE DATABASE MiBaseDeDatos;
--- USE MiBaseDeDatos;
-
--- Crear la tabla EmpleadoSectores
-CREATE TABLE EmpleadoSectores (
-    id INT PRIMARY KEY IDENTITY(1,1),
-    nombre VARCHAR(50) NOT NULL
+﻿-- Crear tabla Aerolineas
+CREATE TABLE Aerolineas (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL
 );
 
--- Crear la tabla Empleados
-CREATE TABLE Empleados (
-    id INT PRIMARY KEY IDENTITY(1,1),
-    apellido VARCHAR(50) NOT NULL,
-    nombre VARCHAR(50) NOT NULL,
-    id_sector INT NOT NULL,
-    FOREIGN KEY (id_sector) REFERENCES EmpleadoSectores(id)
+-- Crear tabla AvionModelos
+CREATE TABLE AvionModelos (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    detalle VARCHAR(50) NOT NULL
 );
 
--- Insertar datos en la tabla EmpleadoSectores
-INSERT INTO EmpleadoSectores (nombre)
-VALUES 
-('Recursos Humanos'),  -- id = 1
-('Finanzas'),          -- id = 2
-('Tecnología'),        -- id = 3
-('Marketing'),         -- id = 4
-('Ventas'),            -- id = 5
-('Atención al Cliente'),-- id = 6
-('Logística'),         -- id = 7
-('Investigación y Desarrollo'), -- id = 8
-('Producción'),        -- id = 9
-('Calidad');          -- id = 10
+-- Crear tabla Vuelos
+CREATE TABLE Vuelos (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    numeroVuelo INT NOT NULL,
+    idAerolinea INT NOT NULL,
+    idAvionModelo INT NOT NULL,
+    FOREIGN KEY (idAerolinea) REFERENCES Aerolineas(id),
+    FOREIGN KEY (idAvionModelo) REFERENCES AvionModelos(id)
+);
 
--- Insertar datos en la tabla Empleados
-INSERT INTO Empleados (apellido, nombre, id_sector)
-VALUES 
-('Pérez', 'Juan', 1),          -- Juan Pérez en Recursos Humanos
-('López', 'María', 2),         -- María López en Finanzas
-('González', 'Carlos', 3),     -- Carlos González en Tecnología
-('Rodríguez', 'Ana', 4),       -- Ana Rodríguez en Marketing
-('Sánchez', 'Laura', 5),       -- Laura Sánchez en Ventas
-('Martínez', 'José', 6),       -- José Martínez en Atención al Cliente
-('Hernández', 'Pedro', 7),     -- Pedro Hernández en Logística
-('Fernández', 'Lucía', 8),     -- Lucía Fernández en I+D
-('Díaz', 'Francisco', 9),      -- Francisco Díaz en Producción
-('Ramírez', 'Clara', 10),       -- Clara Ramírez en Calidad
-('Torres', 'Javier', 1),        -- Javier Torres en Recursos Humanos
-('Morales', 'Mónica', 3),       -- Mónica Morales en Tecnología
-('Castillo', 'Andrés', 2);      -- Andrés Castillo en Finanzas
+
+-- Poblar Aerolineas
+SET IDENTITY_INSERT Aerolineas ON;
+INSERT INTO Aerolineas (id, nombre) VALUES 
+(1, 'Aerolíneas Argentinas'),
+(2, 'LATAM'),
+(3, 'Sky Airline'),
+(4, 'Flybondi'),
+(5, 'JetSMART');
+SET IDENTITY_INSERT Aerolineas OFF;
+
+-- Poblar AvionModelos
+SET IDENTITY_INSERT AvionModelos ON;
+INSERT INTO AvionModelos (id, detalle) VALUES
+(1, 'Boeing 737'),
+(2, 'Airbus A320'),
+(3, 'Embraer 190'),
+(4, 'Boeing 787'),
+(5, 'Airbus A330');
+SET IDENTITY_INSERT AvionModelos OFF;
+
+-- Poblar Vuelos (IDs de aerolínea y modelo válidos)
+INSERT INTO Vuelos (numeroVuelo, idAerolinea, idAvionModelo) VALUES
+(1001, 1, 1),
+(1002, 2, 2),
+(1003, 3, 3),
+(1004, 4, 4),
+(1005, 5, 5),
+(1006, 1, 2),
+(1007, 2, 1),
+(1008, 3, 4),
+(1009, 4, 3),
+(1010, 5, 1);
